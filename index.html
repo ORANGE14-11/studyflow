@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFlow - Smart To-Do List</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <span>StudyFlow</span>
+                </div>
+                <button class="close-sidebar" id="closeSidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- User Profile -->
+            <div class="user-profile">
+                <div class="avatar">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="user-info">
+                    <h3 id="userName">Student</h3>
+                    <p id="userGreeting">Good Morning!</p>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="todayTasks">0</span>
+                    <span class="stat-label">Today</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="pendingTasks">0</span>
+                    <span class="stat-label">Pending</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="completedTasks">0</span>
+                    <span class="stat-label">Done</span>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h4>Menu</h4>
+                    <a href="#" class="nav-item active" data-view="all">
+                        <i class="fas fa-home"></i>
+                        <span>All Tasks</span>
+                        <span class="badge" id="allCount">0</span>
+                    </a>
+                    <a href="#" class="nav-item" data-view="today">
+                        <i class="fas fa-calendar-day"></i>
+                        <span>Today</span>
+                        <span class="badge" id="todayCount">0</span>
+                    </a>
+                    <a href="#" class="nav-item" data-view="upcoming">
+                        <i class="fas fa-calendar-week"></i>
+                        <span>Upcoming</span>
+                        <span class="badge" id="upcomingCount">0</span>
+                    </a>
+                    <a href="#" class="nav-item" data-view="important">
+                        <i class="fas fa-star"></i>
+                        <span>Important</span>
+                        <span class="badge" id="importantCount">0</span>
+                    </a>
+                    <a href="#" class="nav-item" data-view="completed">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Completed</span>
+                        <span class="badge" id="completedCount">0</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <h4>Categories</h4>
+                    <a href="#" class="nav-item category-item" data-category="study">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Study</span>
+                        <span class="badge study" id="studyCount">0</span>
+                    </a>
+                    <a href="#" class="nav-item category-item" data-category="homework">
+                        <i class="fas fa-book"></i>
+                        <span>Homework</span>
+                        <span class="badge homework" id="homeworkCount">0</span>
+                    </a>
+                    <a href="#" class="nav-item category-item" data-category="exam">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Exams</span>
+                        <span class="badge exam" id="examCount">0</span>
+                    </a>
+                    <a href="#" class="nav-item category-item" data-category="personal">
+                        <i class="fas fa-user"></i>
+                        <span>Personal</span>
+                        <span class="badge personal" id="personalCount">0</span>
+                    </a>
+                    <a href="#" class="nav-item category-item" data-category="work">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Work</span>
+                        <span class="badge work" id="workCount">0</span>
+                    </a>
+                    <a href="#" class="nav-item category-item" data-category="health">
+                        <i class="fas fa-heart"></i>
+                        <span>Health</span>
+                        <span class="badge health" id="healthCount">0</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <h4>Tools</h4>
+                    <a href="#" class="nav-item" data-view="pomodoro">
+                        <i class="fas fa-clock"></i>
+                        <span>Pomodoro Timer</span>
+                    </a>
+                    <a href="#" class="nav-item" data-view="statistics">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Statistics</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Theme Toggle -->
+            <div class="sidebar-footer">
+                <div class="theme-switch">
+                    <i class="fas fa-sun"></i>
+                    <label class="switch">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider"></span>
+                    </label>
+                    <i class="fas fa-moon"></i>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-btn" id="menuBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="header-title">
+                        <h1 id="viewTitle">All Tasks</h1>
+                        <p id="currentDate"></p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search tasks...">
+                    </div>
+                    <button class="btn btn-primary" id="addTaskBtn">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Task</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- All Tasks View -->
+                <div class="view-container" id="tasksView">
+                    <!-- Progress Bar -->
+                    <div class="daily-progress">
+                        <div class="progress-header">
+                            <h3>Today's Progress</h3>
+                            <span id="progressPercent">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p class="progress-text">
+                            <span id="completedToday">0</span> of <span id="totalToday">0</span> tasks completed
+                        </p>
+                    </div>
+
+                    <!-- Filter Bar -->
+                    <div class="filter-bar">
+                        <div class="filter-group">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="active">Active</button>
+                            <button class="filter-btn" data-filter="completed">Completed</button>
+                        </div>
+                        <div class="sort-group">
+                            <select id="sortSelect">
+                                <option value="date-asc">Due Date (Earliest)</option>
+                                <option value="date-desc">Due Date (Latest)</option>
+                                <option value="priority">Priority</option>
+                                <option value="name">Name (A-Z)</option>
+                                <option value="created">Recently Added</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Task List -->
+                    <div class="task-list" id="taskList">
+                        <!-- Tasks will be rendered here -->
+                    </div>
+
+                    <!-- Empty State -->
+                    <div class="empty-state hidden" id="emptyState">
+                        <div class="empty-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h3>No tasks yet!</h3>
+                        <p>Click "Add Task" to create your first task</p>
+                    </div>
+                </div>
+
+                <!-- Pomodoro Timer View -->
+                <div class="view-container hidden" id="pomodoroView">
+                    <div class="pomodoro-container">
+                        <div class="pomodoro-card">
+                            <div class="pomodoro-tabs">
+                                <button class="pomo-tab active" data-time="25">Pomodoro</button>
+                                <button class="pomo-tab" data-time="5">Short Break</button>
+                                <button class="pomo-tab" data-time="15">Long Break</button>
+                            </div>
+                            
+                            <div class="timer-display">
+                                <span id="timerMinutes">25</span>
+                                <span>:</span>
+                                <span id="timerSeconds">00</span>
+                            </div>
+
+                            <div class="timer-task">
+                                <p id="currentTask">Select a task to focus on</p>
+                            </div>
+
+                            <div class="timer-controls">
+                                <button class="timer-btn" id="startTimer">
+                                    <i class="fas fa-play"></i>
+                                    Start
+                                </button>
+                                <button class="timer-btn secondary" id="resetTimer">
+                                    <i class="fas fa-redo"></i>
+                                    Reset
+                                </button>
+                            </div>
+
+                            <div class="pomodoro-stats">
+                                <div class="pomo-stat">
+                                    <span id="pomodoroCount">0</span>
+                                    <p>Pomodoros Today</p>
+                                </div>
+                                <div class="pomo-stat">
+                                    <span id="focusTime">0h 0m</span>
+                                    <p>Focus Time</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Task Selection for Pomodoro -->
+                        <div class="pomodoro-tasks">
+                            <h3>Select Task to Focus</h3>
+                            <div class="pomo-task-list" id="pomoTaskList">
+                                <!-- Tasks will be rendered here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics View -->
+                <div class="view-container hidden" id="statisticsView">
+                    <div class="stats-grid">
+                        <div class="stat-card large">
+                            <div class="stat-header">
+                                <h3>Weekly Overview</h3>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="weeklyChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4 id="totalTasksStat">0</h4>
+                                <p>Total Tasks</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <i class="fas fa-check-double"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4 id="completedTasksStat">0</h4>
+                                <p>Completed</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon orange">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4 id="streakStat">0 days</h4>
+                                <p>Current Streak</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon purple">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4 id="focusTimeStat">0h</h4>
+                                <p>Focus Time</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card large">
+                            <div class="stat-header">
+                                <h3>Tasks by Category</h3>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <h3>Completion Rate</h3>
+                            </div>
+                            <div class="completion-ring">
+                                <svg viewBox="0 0 100 100">
+                                    <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
+                                    <circle class="ring-fill" id="completionRing" cx="50" cy="50" r="45"></circle>
+                                </svg>
+                                <span id="completionPercent">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Task Modal -->
+    <div class="modal-overlay" id="taskModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Task</h2>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="taskForm">
+                <input type="hidden" id="taskId">
+                
+                <div class="form-group">
+                    <label for="taskTitle">
+                        <i class="fas fa-heading"></i>
+                        Task Title *
+                    </label>
+                    <input type="text" id="taskTitle" placeholder="What do you need to do?" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="taskDescription">
+                        <i class="fas fa-align-left"></i>
+                        Description
+                    </label>
+                    <textarea id="taskDescription" rows="3" placeholder="Add details about this task..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskCategory">
+                            <i class="fas fa-folder"></i>
+                            Category
+                        </label>
+                        <select id="taskCategory">
+                            <option value="study">📚 Study</option>
+                            <option value="homework">📖 Homework</option>
+                            <option value="exam">📝 Exam</option>
+                            <option value="personal">👤 Personal</option>
+                            <option value="work">💼 Work</option>
+                            <option value="health">❤️ Health</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskPriority">
+                            <i class="fas fa-flag"></i>
+                            Priority
+                        </label>
+                        <select id="taskPriority">
+                            <option value="low">🟢 Low</option>
+                            <option value="medium" selected>🟡 Medium</option>
+                            <option value="high">🔴 High</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskDueDate">
+                            <i class="fas fa-calendar"></i>
+                            Due Date
+                        </label>
+                        <input type="date" id="taskDueDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDueTime">
+                            <i class="fas fa-clock"></i>
+                            Time
+                        </label>
+                        <input type="time" id="taskDueTime">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="taskSubtasks">
+                        <i class="fas fa-list-check"></i>
+                        Subtasks (one per line)
+                    </label>
+                    <textarea id="taskSubtasks" rows="3" placeholder="Break down into smaller steps..."></textarea>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="taskImportant">
+                        <span class="checkmark"></span>
+                        <i class="fas fa-star"></i>
+                        Mark as Important
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelTask">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Save Task
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Task Detail Modal -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal modal-detail">
+            <div class="modal-header">
+                <h2 id="detailTitle">Task Details</h2>
+                <button class="modal-close" id="closeDetailModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="detailContent">
+                <!-- Task details will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal modal-small">
+            <div class="modal-header">
+                <h2>Delete Task</h2>
+                <button class="modal-close" id="closeDeleteModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="delete-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Are you sure you want to delete this task?</p>
+                    <span>This action cannot be undone.</span>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" id="cancelDelete">Cancel</button>
+                <button class="btn btn-danger" id="confirmDelete">
+                    <i class="fas fa-trash"></i>
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Audio for Pomodoro -->
+    <audio id="timerSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"></audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
