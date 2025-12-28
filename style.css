@@ -1024,3 +1024,9 @@ input:checked + .slider:before {
         display: none;
     }
 }
+:root {
+    --primary: #6366f1;     /* Main color */
+    --success: #10b981;     /* Completed tasks */
+    --warning: #f59e0b;     /* Medium priority */
+    --danger: #ef4444;      /* High priority */
+}
